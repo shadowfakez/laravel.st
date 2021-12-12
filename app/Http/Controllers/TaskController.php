@@ -13,7 +13,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        echo 'task';
+        echo "This is TaskController, index method";
     }
 
     /**
@@ -23,7 +23,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        echo "This is TaskController, create method";
     }
 
     /**
@@ -34,7 +34,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo "This is TaskController, store method";
     }
 
     /**
@@ -45,7 +45,7 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+        echo "This is TaskController, show method";
     }
 
     /**
@@ -56,7 +56,7 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        echo "This is TaskController, edit method";
     }
 
     /**
@@ -68,7 +68,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        echo "This is TaskController, update method";
     }
 
     /**
@@ -79,6 +79,6 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        echo "This is TaskController, destroy method";
     }
 }

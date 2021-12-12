@@ -23,11 +23,11 @@ Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 
 Route::group(['prefix' => 'users'], function() {
 
-    Route::get('/', [UserController::class, 'index'])->name('index');
-    Route::post('/registration', [UserController::class, 'registration'])->name('user.registration');
-    Route::post('/authorization', [UserController::class, 'authorization'])->name('user.authorization');
-    Route::get('/{id}/show', [UserController::class, 'show'])->name('user.show');
-    Route::delete('/delete', [UserController::class, 'delete'])->name('user.delete');
+    Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::post('/registration', [UserController::class, 'registration'])->name('users.registration');
+    Route::post('/authorization', [UserController::class, 'authorization'])->name('users.authorization');
+    Route::get('/{id}/show', [UserController::class, 'show'])->name('users.show');
+    Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
 });
 
 Route::resource('/task', TaskController::class);

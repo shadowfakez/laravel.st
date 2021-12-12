@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
     public function index()
     {
-        echo "This is UserController, index method";
+        $users = DB::table('users')->get();
+
+        return view('users.index', ['users' => $users]);
     }
 
     public function registration()
@@ -26,8 +29,11 @@ class UserController extends Controller
         echo "This is UserController, show method";
     }
 
-    public function delete()
+   public function delete($id)
     {
-        echo "This is UserController, delete method";
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->route('users.index')->with('success', 'Удалено');
     }
+
 }
