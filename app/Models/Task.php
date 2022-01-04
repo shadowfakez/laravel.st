@@ -20,4 +20,9 @@ class Task extends Model
     {
         return $this->belongsToMany(Label::class, 'task_labels');
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 }
