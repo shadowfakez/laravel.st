@@ -44,14 +44,14 @@ class TaskController extends Controller
         $request->validate([
             'title' => 'required',
             'content' => 'required',
-            'status_id' => 'required|integer',
+            'status_id' => 'required',
         ]);
 
         $data = $request->all();
 
         $data['creator_id'] = Auth::user()->id;
 
-        $post = Task::create($data);
+        Task::create($data);
 
         return redirect()->route('task.index')->with('success', 'New task was created successfully');
     }
@@ -75,7 +75,10 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        echo "This is TaskController, edit method";
+        $task = Task::find($id);
+        $statuses = Status::get();
+
+        return view('tasks.edit', compact('task', 'statuses'));
     }
 
     /**
@@ -83,21 +86,33 @@ class TaskController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
     {
-        echo "This is TaskController, update method";
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'status_id' => 'required',
+        ]);
+
+        $task = Task::find($id);
+        $data = $request->all();
+        $task->update($data);
+
+        return redirect()->route('task.index')->with('success', 'Изменения сохранены');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
-        echo "This is TaskController, destroy method";
+        $task = Task::find($id);
+        $task->delete();
+        return redirect()->route('task.index')->with('success', 'Статья удалена');
     }
 }

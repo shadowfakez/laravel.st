@@ -18,8 +18,7 @@
             <textarea type="text" class="form-control" id="content" name="content" placeholder="Content input"></textarea>
         </div>
         <div class="form-group">
-            <label for="status_id">Task title</label>
-{{--            <input type="text" class="form-control" id="status_id" name="status_id" placeholder="Title input">--}}
+            <label for="status_id">Task status</label>
             <select class="form-control" id="status_id" name="status_id">
                 @foreach($statuses as $status)
                     <option value="{{ $status->id }}">{{ $status->name }}</option>
