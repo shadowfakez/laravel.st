@@ -2,12 +2,13 @@
 
 @section('content')
 
-        @if(session()->get('success'))
-            {{ session()->get('success') }}
-        @endif
 
         <div class="page-header mb-3">
             <h3 class="text-center">Tasks</h3>
+        </div>
+
+        <div class="p-3 m-3">
+            <button class="btn btn-success"><a class="btn btn-success p-0 m-0" href="{{ route('task.create') }}">Create new task</a></button>
         </div>
         <table class="table table-dark">
             <thead>

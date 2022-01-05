@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Status;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
@@ -23,22 +25,35 @@ class TaskController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
     {
-        echo "This is TaskController, create method";
+        $statuses = Status::get();
+        return view('tasks.create', ['statuses' => $statuses]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        echo "This is TaskController, store method";
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+            'status_id' => 'required|integer',
+        ]);
+
+        $data = $request->all();
+
+        $data['creator_id'] = Auth::user()->id;
+
+        $post = Task::create($data);
+
+        return redirect()->route('task.index')->with('success', 'New task was created successfully');
     }
 
     /**
