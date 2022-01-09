@@ -102,7 +102,7 @@ class TaskController extends Controller
         $data = $request->all();
 
         $history = app('history');
-        $history->test($id, $data);
+        $history->save($id, $data);
 
         $task->update($data);
 

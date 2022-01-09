@@ -7,7 +7,7 @@ use App\Models\HistoryLog;
 
 class History
 {
-    public function test($id, $data)
+    public function save($id, $data)
     {
 
         $task = Task::find($id);
@@ -32,11 +32,11 @@ class History
             HistoryLog::create($changes);
         }
 
-        if($data['status_id'] !== $task->status->id) {
+        if($data['status_id'] != $task['status_id']) {
 
             $changes['task_id'] = $id;
             $changes['changing_column'] = 'status_id';
-            $changes['before'] = $task->status->id;
+            $changes['before'] = $task['status_id'];
             $changes['after'] = $data['status_id'];
 
             HistoryLog::create($changes);
