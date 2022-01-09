@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Status;
 use App\Models\Task;
+use App\Services\History\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,7 @@ class TaskController extends Controller
     public function create()
     {
         $statuses = Status::get();
+
         return view('tasks.create', ['statuses' => $statuses]);
     }
 
@@ -98,7 +100,13 @@ class TaskController extends Controller
 
         $task = Task::find($id);
         $data = $request->all();
+
+        $history = app('history');
+        $history->test($id, $data);
+
         $task->update($data);
+
+
 
         return redirect()->route('task.index')->with('success', 'Изменения сохранены');
     }
