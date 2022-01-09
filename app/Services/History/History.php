@@ -3,7 +3,6 @@
 namespace App\Services\History;
 
 use App\Models\Task;
-use Illuminate\Http\Request;
 use App\Models\HistoryLog;
 
 class History
@@ -12,15 +11,6 @@ class History
     {
 
         $task = Task::find($id);
-
-        //dd($data->status);
-        //dd($task->status->id);
-/*        $changes['task_id'] = $id;
-        $changes['changing_column'] = $data['title'];
-        $changes['before'] = $task['content'];
-        $changes['after'] = $data['content'];*/
-
-        // изменения в title
 
         if($data['title'] !== $task['title']) {
 
@@ -51,10 +41,6 @@ class History
 
             HistoryLog::create($changes);
         }
-
-
     }
 }
-/* data = ["title" => "1"
-        "content" => "13"
-        "status_id" => "1"]*/
+
