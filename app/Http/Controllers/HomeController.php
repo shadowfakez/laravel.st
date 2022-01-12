@@ -40,9 +40,6 @@ class HomeController extends Controller
             echo $task->title . "<br>";
         }
 
-        $history = app('history');
-        $history->test();
-
         return view('home');
     }
 }

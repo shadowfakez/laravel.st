@@ -12,6 +12,12 @@ class History
 
         $task = Task::find($id);
 
+        $this->checkTitle($task, $data, $id);
+        $this->checkContent($task, $data, $id);
+        $this->checkStatus($task, $data, $id);
+    }
+
+    protected function checkTitle($task, $data, $id) {
         if($data['title'] !== $task['title']) {
 
             $changes['task_id'] = $id;
@@ -21,7 +27,9 @@ class History
 
             HistoryLog::create($changes);
         }
+    }
 
+    protected function checkContent($task, $data, $id) {
         if ($data['content'] !== $task['content']) {
 
             $changes['task_id'] = $id;
@@ -31,7 +39,9 @@ class History
 
             HistoryLog::create($changes);
         }
+    }
 
+    protected function checkStatus($task, $data, $id) {
         if($data['status_id'] != $task['status_id']) {
 
             $changes['task_id'] = $id;

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Services\History;
+namespace App\Providers;
 
+use App\Services\History\History;
 use Illuminate\Support\ServiceProvider;
 
 class HistoryServiceProvider extends ServiceProvider

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Status;
 use App\Models\Task;
-use App\Services\History\History;
+use App\Providers\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
