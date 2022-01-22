@@ -13,6 +13,7 @@
         <table class="table table-dark">
             <thead>
             <tr>
+                <th scope="col">Labels</th>
                 <th scope="col">Id</th>
                 <th scope="col">Creator</th>
                 <th scope="col">Title</th>
@@ -25,7 +26,12 @@
             <tbody>
             @foreach($tasks as $task)
                 <tr>
-                    <th scope="row">{{ $task->id }}</th>
+                    <th scope="row">
+                        @foreach($task->labels as $label)
+                            <span class="badge bg-{{$label->color}}">{{$label->name}}</span>
+                        @endforeach
+                    </th>
+                    <td>{{ $task->id }}</td>
                     <td>{{ $task->user->name }}</td>
                     <td>{{ $task->title }}</td>
                     <td>{{ $task->content }}</td>

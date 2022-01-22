@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Facades\History;
+use App\Http\Requests\TaskRequest;
+use App\Models\Label;
 use App\Models\Status;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -32,7 +34,9 @@ class TaskController extends Controller
     {
         $statuses = Status::get();
 
-        return view('tasks.create', ['statuses' => $statuses]);
+        $labels = Label::get();
+
+        return view('tasks.create', ['statuses' => $statuses, 'labels' => $labels]);
     }
 
     /**
@@ -41,19 +45,14 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'status_id' => 'required',
-        ]);
-
         $data = $request->all();
 
         $data['creator_id'] = Auth::user()->id;
 
-        Task::create($data);
+        $task = Task::create($data);
+        $task->labels()->sync($request->labels);
 
         return redirect()->route('task.index')->with('success', 'New task was created successfully');
     }
@@ -79,8 +78,9 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
         $statuses = Status::get();
+        $labels = Label::get();
 
-        return view('tasks.edit', compact('task', 'statuses'));
+        return view('tasks.edit', compact('task', 'statuses', 'labels'));
     }
 
     /**
@@ -90,25 +90,15 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(TaskRequest $request, $id)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'status_id' => 'required',
-        ]);
-
         $task = Task::find($id);
         $data = $request->all();
-
-        /*$history = app('history');
-        $history->save($id, $data);*/
 
         History::save($id, $data);
 
         $task->update($data);
-
-
+        $task->labels()->sync($request->labels);
 
         return redirect()->route('task.index')->with('success', 'Изменения сохранены');
     }
