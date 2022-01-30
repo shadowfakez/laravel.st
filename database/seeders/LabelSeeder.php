@@ -15,9 +15,9 @@ class LabelSeeder extends Seeder
     public function run()
     {
         DB::table('labels')->insert([
-            ['name' => 'bug', 'color' => 'grey'],
-            ['name' => 'feature', 'color' => 'green'],
-            ['name' => 'urgent', 'color' => 'red'],
+            ['name' => 'bug', 'color' => 'secondary'],
+            ['name' => 'feature', 'color' => 'success'],
+            ['name' => 'urgent', 'color' => 'danger'],
         ]);
     }
 }

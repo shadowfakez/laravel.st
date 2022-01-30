@@ -12,9 +12,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        echo "This is HomeController,  index method";
+       /* echo "This is HomeController,  index method";
 
-        echo '<br>';
+        echo '<br>';*/
 
         /*$tasks = Status::find(1)->tasks;
 
@@ -28,12 +28,12 @@ class HomeController extends Controller
 
         echo $task->status->name;*/
 
-        $task = Task::find(5);
+        /*$task = Task::find(5);
 
         foreach ($task->labels as $label) {
 
             echo $label->name . ' ' . $label->color . '<br>';
-        }
+        }*/
 
         /*$label = Label::find(2);
         foreach ($label->tasks as $task) {

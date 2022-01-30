@@ -21,14 +21,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 
-Route::group(['prefix' => 'users'], function() {
+/*Route::group(['prefix' => 'users'], function() {
 
     Route::get('/', [UserController::class, 'index'])->name('users.index');
     Route::post('/registration', [UserController::class, 'registration'])->name('users.registration');
     Route::post('/authorization', [UserController::class, 'authorization'])->name('users.authorization');
     Route::get('/{id}/show', [UserController::class, 'show'])->name('users.show');
     Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
-});
+});*/
+
+Route::resource('/users', UserController::class);
 
 Route::resource('/task', TaskController::class);
 
