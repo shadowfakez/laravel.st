@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Facades\History;
 use App\Http\Requests\TaskRequest;
+use App\Models\HistoryLog;
 use App\Models\Label;
 use App\Models\Status;
 use App\Models\Task;
@@ -20,7 +21,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::get();
+        $tasks = Task::paginate(2);
 
         return view('tasks.index', ['tasks' => $tasks]);
     }
@@ -111,7 +112,9 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
+
         $task = Task::find($id);
+
         $task->delete();
         return redirect()->route('task.index')->with('success', 'Статья удалена');
     }

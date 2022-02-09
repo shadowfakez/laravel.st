@@ -21,7 +21,7 @@ class CreateHistoryLogsTable extends Migration
             $table->text('after');
             $table->timestamps();
 
-            $table->foreign('task_id')->references('id')->on('tasks');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

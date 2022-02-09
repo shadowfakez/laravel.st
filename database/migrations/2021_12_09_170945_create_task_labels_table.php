@@ -17,8 +17,8 @@ class CreateTaskLabelsTable extends Migration
             $table->bigInteger('task_id', false,true);
             $table->bigInteger('label_id', false,true);
 
-            $table->foreign('task_id')->references('id')->on('tasks');
-            $table->foreign('label_id')->references('id')->on('labels');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('label_id')->references('id')->on('labels')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

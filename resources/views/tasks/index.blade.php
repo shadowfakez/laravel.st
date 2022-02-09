@@ -12,11 +12,11 @@
 
     <div class="row justify-content-md-center">
     @foreach($tasks as $task)
-        <div class="col-md-8 mb-4">
+        <div class="col-md-6 mb-4">
             <div class="card gradient-card text-white bg-dark">
                 <div class="card-header border-bottom border-light">
 
-                    <div class="text-right border-bottom border-light rounded-top">
+                    <div class="border-bottom border-light rounded-top">
                         <p class="text-uppercase text-center m-2">{{ $task->status->name }}</p>
                     </div>
 
@@ -48,11 +48,11 @@
 
                 <div class="card-body row">
                     <div class="col d-grid gap-2">
-                        <button class="btn btn-outline-info btn-sm" type="submit">
-                            <a href="{{ route('task.edit', ['task' => $task->id]) }}" class="text-white m-0 p-0">
+                        <a class="btn btn-outline-info btn-sm" href="{{ route('task.edit', ['task' => $task->id]) }}" type="submit">
+
                                 Edit
-                            </a>
-                        </button>
+
+                        </a>
                     </div>
                     <div class="col">
                         <form action="{{ route('task.destroy', $task->id) }}" method="POST" class=" d-grid gap-2">
@@ -67,5 +67,9 @@
             </div>
         </div>
         @endforeach
+    </div>
+
+    <div class="d-flex justify-content-center p-3 m-3">
+        {!! $tasks->links() !!}
     </div>
 @endsection
