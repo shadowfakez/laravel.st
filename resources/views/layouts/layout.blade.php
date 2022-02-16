@@ -15,8 +15,8 @@
                 <div class="row g-0">
                     <div class="col-6">
                         <div class="row">
-                            <div class="col-auto mr-auto"><a class="btn btn-outline-primary" href="{{ route('users.index') }}">Users</a></div>
                             <div class="col-auto mr-auto"><a class="btn btn-outline-success" href="{{ route('task.index') }}">Tasks</a></div>
+                            <div class="col-auto mr-auto"><a class="btn btn-outline-primary" href="{{ route('users.index') }}">Users</a></div>
                         </div>
                     </div>
                 @auth

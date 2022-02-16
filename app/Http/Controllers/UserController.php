@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -61,17 +62,20 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        $roles = Role::get();
-        if ($user->hasAnyRole(['admin', 'user'])) {
-            foreach($user->getRoleNames() as $role){
-                $userRoleName = $role;
+        if (Auth::check() and Auth::user()->hasRole('admin')) {
+            $user = User::find($id);
+            $roles = Role::get();
+            if ($user->hasAnyRole(['admin', 'user'])) {
+                foreach ($user->getRoleNames() as $role) {
+                    $userRoleName = $role;
+                }
+            } else {
+                $userRoleName = null;
             }
-        } else {
-            $userRoleName = null;
-        }
 
-        return view('users.edit', compact('user', 'roles', 'userRoleName'));
+            return view('users.edit', compact('user', 'roles', 'userRoleName'));
+        }
+        return redirect(404);
     }
 
     /**

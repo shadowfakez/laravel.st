@@ -21,7 +21,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::paginate(2);
+        $tasks = Task::orderBy('id', 'desc')->paginate(2);
         $statuses = Status::get();
 
         return view('tasks.index', ['tasks' => $tasks, 'statuses' => $statuses]);
@@ -34,25 +34,28 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $statuses = Status::get();
+        if (Auth::check()) {
+            $statuses = Status::get();
 
-        $labels = Label::get();
+            $labels = Label::get();
 
-        return view('tasks.create', ['statuses' => $statuses, 'labels' => $labels]);
+            return view('tasks.create', ['statuses' => $statuses, 'labels' => $labels]);
+        }
+        return redirect(404);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(TaskRequest $request)
     {
+
         $data = $request->all();
 
         $data['creator_id'] = Auth::user()->id;
-        //TODO закрыть доступ к созданию тасков незалогиненным пользователям
 
         $task = Task::create($data);
         $task->labels()->sync($request->labels);
@@ -63,7 +66,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -74,23 +77,27 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit($id)
     {
         $task = Task::find($id);
-        $statuses = Status::get();
-        $labels = Label::get();
+        if (Auth::check() and Auth::user()->hasRole('admin') or $task->user->id == Auth::user()->id) {
+            $statuses = Status::get();
+            $labels = Label::get();
 
-        return view('tasks.edit', compact('task', 'statuses', 'labels'));
+            return view('tasks.edit', compact('task', 'statuses', 'labels'));
+        }
+        return redirect(404);
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(TaskRequest $request, $id)
@@ -109,7 +116,7 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)

@@ -5,11 +5,11 @@
     <div class="page-header mb-3">
         <h3 class="text-center">Tasks</h3>
     </div>
-
+    @if(Auth::check())
     <div class="p-3 m-3 text-center">
         <button class="btn btn-success"><a class="btn btn-success p-0 m-0" href="{{ route('task.create') }}">Create new task</a></button>
     </div>
-
+    @endif
     <div class="row justify-content-md-center">
     @foreach($tasks as $task)
         <div class="col-md-6 mb-4">
@@ -45,24 +45,28 @@
                         <h4 class="fs-5">Created by {{ $task->user->name }}</h4>
                     </div>
                 </div>
-                @if(Auth::user()->hasRole('admin') || $task->user->id == Auth::user()->id)
-                <div class="card-body row">
-                    <div class="col d-grid gap-2">
-                        <a class="btn btn-outline-info btn-sm" href="{{ route('task.edit', ['task' => $task->id]) }}" type="submit">
-                                Edit
-                        </a>
+                @if(Auth::check())
+                    @if(Auth::user()->hasRole('admin') or $task->user->id == Auth::user()->id)
+                    <div class="card-body row">
+                        <div class="col d-grid gap-2">
+                            <a class="btn btn-outline-info btn-sm" href="{{ route('task.edit', ['task' => $task->id]) }}" type="submit">
+                                    Edit
+                            </a>
+                        </div>
+                        <div class="col">
+                            <form action="{{ route('task.destroy', $task->id) }}" method="POST" class=" d-grid gap-2">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-outline-danger btn-sm" type="submit" onclick="return confirm('Подтвердите удаление')">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
-                    <div class="col">
-                        <form action="{{ route('task.destroy', $task->id) }}" method="POST" class=" d-grid gap-2">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-outline-danger btn-sm" type="submit" onclick="return confirm('Подтвердите удаление')">
-                                Delete
-                            </button>
-                        </form>
-                    </div>
-                </div>
+                    @endif
                 @endif
+
+
             </div>
         </div>
         @endforeach
