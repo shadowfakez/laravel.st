@@ -22,8 +22,9 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::paginate(2);
+        $statuses = Status::get();
 
-        return view('tasks.index', ['tasks' => $tasks]);
+        return view('tasks.index', ['tasks' => $tasks, 'statuses' => $statuses]);
     }
 
     /**
@@ -51,6 +52,7 @@ class TaskController extends Controller
         $data = $request->all();
 
         $data['creator_id'] = Auth::user()->id;
+        //TODO закрыть доступ к созданию тасков незалогиненным пользователям
 
         $task = Task::create($data);
         $task->labels()->sync($request->labels);
