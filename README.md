@@ -96,6 +96,7 @@ urgent
 
 ---------------------------------------------------------
 => коммит added migrations and seeders. Done with hw 12 Laravel. Migrations
+
 =========================================================
 ДЗ 13. Task manager entities
 
@@ -132,6 +133,7 @@ urgent
 ДЗ 15. Фасад
 
 Добавить фасад для своего сервиса из предыдущего урока - для сервиса сохранения истории
+
 ---------------------------------------------------------
 коммит hw15 - facade for history service
 
@@ -149,12 +151,14 @@ urgent
 Опционально:
 
 В случае ошибки добавления/редактирования вывести сообщение об ошибках на странице после редиректа
+
 ---------------------------------------------------------
 1. Основной макет: resources/views/layouts/layout.blade.php.
 2. Шаблоны для создания и редактирования: resources/views/tasks/create.blade.php, resources/views/tasks/edit.blade.php.
 3. app/Http/Controllers/TaskController.php методы create, store, edit, update. Валидацию реализовал в app/Http/Requests/TaskRequest.php
 
 => коммит - hw16 - forms
+
 =========================================================
 
 
