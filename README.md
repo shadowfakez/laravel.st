@@ -157,6 +157,8 @@ urgent
 2. Шаблоны для создания и редактирования: resources/views/tasks/create.blade.php, resources/views/tasks/edit.blade.php.
 3. app/Http/Controllers/TaskController.php методы create, store, edit, update. Валидацию реализовал в app/Http/Requests/TaskRequest.php
 
+---------------------------------------------------------
+
 => коммит - hw16 - forms
 
 =========================================================
