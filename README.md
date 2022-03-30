@@ -1,66 +1,176 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+ДЗ 10. Laravel. Установка
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Создать и настроить проект на базе фреймворка Laravel.
 
-## About Laravel
+1. Настроить виртуальный хост для нового проекта.
+2. Создать базу данных для нового проекта
+3. С помощью композера создать Laravel проект.
+4. Сделать соответствующие настройки:
+5. Разрешить серверу запись в папки кешей и логов
+6. Сгенерировать с помощью команды artisan ключ приложения
+7. Добавить в переменные окружения настройки базы данных
+8. Изучить структуру директорий проекта
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+=========================================================
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+ДЗ 11. Task manager. Роуты и контроллеры
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Настроить роуты для учебного Laravel проекта - таск менеджера.
 
-## Learning Laravel
+1. Создать 3 контроллера:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+а) для домашней страницы, с произвольным методом.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+б) для пользователей, с 4 методами регистрации, авторизации, просмотра и удаления.
 
-## Laravel Sponsors
+в) для тасков - ресурсный контроллер (создать с помощью artisan команды)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+2. Настроить роуты для этих 3 сущностей:
 
-### Premium Partners
+a) для домашней страницы, один именованый роут методом GET.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
+б) для пользователей именованные роуты: регистрация (POST), авторизация (POST), просмотр пользователя (GET), удаление (DELETE).
 
-## Contributing
+в) для тасков - ресурсный роут.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. Группировать роуты для пользователя (по имени и/или префиксу).
 
-## Code of Conduct
+4. В соответствующих методах контроллеров временно возвращать произвольные строки, которые позволит определить, что вашы методы отрабатывает по соответствующим запросам.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---------------------------------------------------------
+=> коммит HW11-Task manager. Роуты и контроллеры
 
-## Security Vulnerabilities
+=========================================================
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+ДЗ 12. Laravel. Migrations
 
-## License
+I. Миграции
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Добавить таблицы для своего учебного проекта (Task Manager): задачи (tasks), статусы (statuses), метки (labels) и промежуточная таблица для связи задач и меток (task_label).
+
+1. Создать миграции для этих 4 таблиц:
+
+a) Поля таблицы tasks:
+
+id - автоинкрементный первичный ключ (bigint unsigned)
+creator_id - идентификатор пользователя, который добавляет запись. Сделать внешний ключ на таблицу users поле id
+title - заголовок таска
+content - описание таска
+status_id - статус заказа, добавить внешний ключ на таблицу statuses поле id (учесть что первой должна запускаться миграция по статусам)
+created_at дата создания, тип timestamp
+updated_at дата обновления, тип timestamp
+b) Поля statuses:
+
+id - автоинкрементный первичный ключ (bigint unsigned)
+name - название статуса
+created_at дата создания, тип timestamp
+updated_at дата обновления, тип timestamp
+c) Поля таблицы labels
+
+id - автоинкрементный первичный ключ (bigint unsigned)
+name - название метки
+color - цвет метки
+created_at дата создания, тип timestamp
+updated_at дата обновления, тип timestamp
+d) Поля таблицы task_label:
+
+task_id - добавить внешний ключ на таблицу tasks поле id
+label_id - добавить внешний ключ на таблицу labels поле id
+2. Выполнить миграции
+
+II. Сидеры
+
+1. Добавить 2 сидера: для начального наполнения таблиц статусов и меток.
+
+a) Добавить дефолтные статусы:
+
+to do
+in progres
+done
+b) Добавить дефолтные метки:
+
+bug
+feature
+urgent
+2. Запустить сидеры
+
+---------------------------------------------------------
+=> коммит added migrations and seeders. Done with hw 12 Laravel. Migrations
+
+=========================================================
+ДЗ 13. Task manager entities
+
+1. Создать классы сущностей: Task, Status, Label
+
+2. Описать отношения для каждой из сущностей
+
+для Task: status (один ко многим обратное отношение) и labels (многие ко многим)
+для Status: tasks (один ко многим)
+для Label: tasks (многие ко многим)
+
+---------------------------------------------------------
+=> коммит HW13. Task manager entities.
+
+=========================================================
+
+ДЗ 14. Сервис истории
+
+Написать кастомный сервис, который будет сохранять историю изменений задач.
+
+1. Создать класс сервиса, и нужные методы. На входе может получать id задачи и массив измененных полей.
+
+2. Добавить таблицу, необходимые модели и отношения.
+
+3. Добавить отдельный сервис-провайдер, регистрировать сервис можно как синглтон, например.
+
+4. Какие поля и в каком виде хранить предлагается сделать на ваше усмотрение.
+---------------------------------------------------------
+1. Создал класс History, добавил методы checkTitle, checkContent, checkStatus, в которых происходит проверка на наличие изменений в title, content и status соответственно. В save() вызываются эти методы. В случае наличия изменений в таблицу history_logs добавляется соответствующая запись(или записи, если изменений несколько).
+2. Добавлена миграция CreateHistoryLogsTable с полями task_id , changing_column, before, after, а так же внешний ключ, связывающий task_id и id в таблице task. Добавлена модель HistoryLog.
+3. Добавлен сервис-провайдер HistoryServiceProvider( App\Providers), зарегистрирован как синглтон.
+=> коммит done with hw14 - history service
+=========================================================
+ДЗ 15. Фасад
+
+Добавить фасад для своего сервиса из предыдущего урока - для сервиса сохранения истории
+
+---------------------------------------------------------
+коммит hw15 - facade for history service
+
+=========================================================
+ДЗ 16. Формы создания/редактирования тасков
+
+Добавить 2 шаблона с формами для создания и редактирования задачи.
+
+1. Создать layout (макет) для основных страниц сайта.
+
+2. Создать шаблоны (template), которые должны расширять layout. В шаблонах сделать формы с необходимыми полями. В форме редактирования нужно получить существующую сущность и заполнять значениями соответствующие поля.
+
+3. Реализовать соответствующие методы контроллера для форм (форма создания, форма редактирова) и для сохранения и обновления записей. Добавить валидацию для последних 2 методов.
+
+Опционально:
+
+В случае ошибки добавления/редактирования вывести сообщение об ошибках на странице после редиректа
+
+---------------------------------------------------------
+1. Основной макет: resources/views/layouts/layout.blade.php.
+2. Шаблоны для создания и редактирования: resources/views/tasks/create.blade.php, resources/views/tasks/edit.blade.php.
+3. app/Http/Controllers/TaskController.php методы create, store, edit, update. Валидацию реализовал в app/Http/Requests/TaskRequest.php
+
+---------------------------------------------------------
+
+=> коммит - hw16 - forms
+
+=========================================================
+
+
+
+
+
+
+
+
+
+
+
+
