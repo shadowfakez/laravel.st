@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Facades\History;
 use App\Http\Requests\TaskRequest;
-use App\Models\HistoryLog;
 use App\Models\Label;
 use App\Models\Status;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -71,7 +68,11 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        echo "This is TaskController, show method";
+        $task = Task::find($id);
+
+        $statuses = Status::get();
+
+        return view('tasks.show', ['task' => $task, 'statuses' => $statuses]);
     }
 
     /**

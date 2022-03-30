@@ -48,8 +48,8 @@
                 @if(Auth::check())
                     @if(Auth::user()->hasRole('admin') or $task->user->id == Auth::user()->id)
                     <div class="card-body row">
-                        <div class="col d-grid gap-2">
-                            <a class="btn btn-outline-info btn-sm" href="{{ route('task.edit', ['task' => $task->id]) }}" type="submit">
+                        <div class="col ">
+                            <a class="btn btn-outline-info btn-sm d-grid gap-2" href="{{ route('task.edit', ['task' => $task->id]) }}" type="submit">
                                     Edit
                             </a>
                         </div>
@@ -65,8 +65,6 @@
                     </div>
                     @endif
                 @endif
-
-
             </div>
         </div>
         @endforeach
