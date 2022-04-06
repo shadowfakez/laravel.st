@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Facades\History;
+use App\Http\Requests\CommentRequest;
 use App\Http\Requests\TaskRequest;
+use App\Models\Comments;
 use App\Models\Label;
 use App\Models\Status;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -49,6 +52,11 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
+       /* $fileName = $request->file('taskFile')->getClientOriginalName();
+
+        Storage::put('public/' . $fileName, $request->file());
+
+        dd($fileName);*/
 
         $data = $request->all();
 
@@ -69,10 +77,10 @@ class TaskController extends Controller
     public function show($id)
     {
         $task = Task::find($id);
-
+        $comments = Comments::where('task_id', $id)->orderBy('id', 'desc')->get();
         $statuses = Status::get();
 
-        return view('tasks.show', ['task' => $task, 'statuses' => $statuses]);
+        return view('tasks.show', ['task' => $task, 'statuses' => $statuses, 'comments' => $comments]);
     }
 
     /**
@@ -128,4 +136,16 @@ class TaskController extends Controller
         $task->delete();
         return redirect()->route('task.index')->with('success', 'Статья удалена');
     }
+
+    public function comment(CommentRequest $request, $id)
+    {
+
+        $data = $request->all();
+        $data['task_id'] = $id;
+        $data['user_id'] = Auth::user()->id;
+        Comments::create($data);
+
+        return redirect()->back()->with('success', 'New comment was added successfully');
+    }
+
 }

@@ -7,7 +7,7 @@
     </div>
 
     <div class="row justify-content-md-center">
-        <div class="col-md-6 mb-4">
+        <div class="mb-4">
             <div class="card gradient-card text-white bg-dark">
                 <div class="card-header border-bottom border-light">
 
@@ -66,17 +66,42 @@
     </div>
 
     <div class="row justify-content-md-center">
-        COMMENTS
 
-        <div class="media">
-            <a class="pull-left" href="#">
-                <img class="media-object" src="..." alt="...">
-            </a>
-            <div class="media-body">
-                <h4 class="media-heading">Заголовок медиа</h4>
-                ...
-            </div>
+        <h5 class="mb-4 text-center">COMMENTS</h5>
+
+        <div class="container mb-4">
+            <form role="form" method="post" action="{{ route('task.comment', ['task' => $task->id]) }}" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-3">
+                    <label for="comment"></label>
+                    <textarea class="form-control border border-dark " id="comment" name="comment" rows="3" placeholder="Add comment"></textarea>
+                </div>
+                <div class="col-auto d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-outline-dark ">Add comment</button>
+                </div>
+
+            </form>
         </div>
+
+        <div class="container m-3">
+            @foreach($comments as $comment)
+                <div class="row justify-content-md-center">
+                    <div class="card text-white bg-dark mb-3">
+                        <div class="row g-0">
+
+                            <div class="card-body">
+                                <h5 class="card-title">{{$comment->user->name}}</h5>
+                                <p class="card-text pl-3" style="text-indent: 50px;">{{$comment->comment}}</p>
+                                <p class="card-text"><small class="text-muted">{{$comment->created_at}}</small></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
     </div>
+
 
 @endsection

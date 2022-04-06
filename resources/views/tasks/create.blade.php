@@ -42,7 +42,14 @@
         </div>
 
         <div class="form-group mb-3">
-            <button type="submit" class="btn btn-primary btn-lg ">Сохранить</button>
+            <label for="taskFile" class="form-label">Add file</label>
+            <input class="form-control" type="file" id="taskFile" name="taskFile">
+        </div>
+
+        <a href="{{ asset('storage/1.txt') }}">file</a>
+
+        <div class="form-group mb-3">
+            <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
         </div>
     </form>
 

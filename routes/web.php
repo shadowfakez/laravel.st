@@ -33,6 +33,7 @@ Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::resource('/users', UserController::class);
 
 Route::resource('/task', TaskController::class);
+Route::post('/task/{task}/comment', 'App\Http\Controllers\TaskController@comment')->name('task.comment');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
