@@ -52,13 +52,15 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-       /* $fileName = $request->file('taskFile')->getClientOriginalName();
-
-        Storage::put('public/' . $fileName, $request->file());
-
-        dd($fileName);*/
-
         $data = $request->all();
+
+        if ($request->file){
+            $fileName = $request->file('file')->getClientOriginalName() . '_' . date("Y-m-d-H-i-s");
+
+            Storage::putFileAs('public/uploaded_files/', $request->file('file'), $fileName);
+
+            $data['file'] = $fileName;
+        }
 
         $data['creator_id'] = Auth::user()->id;
 
@@ -112,7 +114,16 @@ class TaskController extends Controller
     public function update(TaskRequest $request, $id)
     {
         $task = Task::find($id);
+
         $data = $request->all();
+
+        if ($request->file('file')){
+            $fileName = $request->file('file')->getClientOriginalName() . '_' . date("Y-m-d-H-i-s");
+
+            Storage::putFileAs('public/uploaded_files/', $request->file('file'), $fileName);
+
+            $data['file'] = $fileName;
+        }
 
         History::save($id, $data);
 
@@ -132,7 +143,7 @@ class TaskController extends Controller
     {
 
         $task = Task::find($id);
-
+        Storage::delete('public/uploaded_files/' . $task['file']);
         $task->delete();
         return redirect()->route('task.index')->with('success', 'Статья удалена');
     }
@@ -146,6 +157,16 @@ class TaskController extends Controller
         Comments::create($data);
 
         return redirect()->back()->with('success', 'New comment was added successfully');
+    }
+
+    public function deleteFile($id)
+    {
+        $task = Task::find($id);
+        Storage::delete('public/uploaded_files/' . $task['file']);
+        $task['file'] = null;
+        $task->update();
+
+        return back();
     }
 
 }

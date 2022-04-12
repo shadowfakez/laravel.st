@@ -12,7 +12,7 @@
                 <div class="card-header border-bottom border-light">
 
                     <div class="border-bottom border-light rounded-top">
-                        <p class="text-uppercase text-center m-2">{{ $task->status->name }}</p>
+                        <p class="text-uppercase text-center text-{{ $task->status->color }} m-2">{{ $task->status->name }}</p>
                     </div>
 
                     <div class="align-self-center p-3">
@@ -35,19 +35,33 @@
 
                 </div>
 
-                <div class="card-body white text-end">
-                    <div class="border-bottom border-light">
-                        <h4 class="fs-5">Created by {{ $task->user->name }}</h4>
-                    </div>
+                <div class="card-body border-bottom border-light text-end">
+                    <h4 class="fs-5">Created by {{ $task->user->name }}</h4>
                 </div>
                 @if(Auth::check())
                     @if(Auth::user()->hasRole('admin') or $task->user->id == Auth::user()->id)
 
+                        @if($task->file)
+                            <div class="card-body border-bottom border-light">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-11 pt-2">
+                                            <p class="fs-5 text-decoration-underline">Attached file</p>
+                                        </div>
+
+                                        <div class="col-1">
+                                            <a class="btn btn-outline-success" href="{{ asset('storage/uploaded_files/' . $task->file) }}">Download</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                             <div class="card-body row">
                                 <div class="col">
-                                    <btn class="btn btn-outline-info btn-sm d-grid gap-2" href="{{ route('task.edit', ['task' => $task->id]) }}" type="submit">
+                                    <a class="btn btn-outline-info btn-sm d-grid gap-2" href="{{ route('task.edit', ['task' => $task->id]) }}" type="submit">
                                         Edit
-                                    </btn>
+                                    </a>
                                 </div>
                                 <div class="col">
                                     <form action="{{ route('task.destroy', $task->id) }}" method="POST" class=" d-grid gap-2">

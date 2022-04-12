@@ -6,7 +6,7 @@
         <h3 class="text-center">Edit task</h3>
     </div>
 
-    <form role="form" method="post" action="{{ route('task.update', ['task' => $task->id]) }}" enctype="multipart/form-data">
+    <form id="editForm" role="form" method="post" action="{{ route('task.update', ['task' => $task->id]) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="form-group mb-3">
@@ -46,10 +46,42 @@
                 @endforeach
             </select>
         </div>
-
+        @if(!$task->file)
         <div class="form-group mb-3">
-            <button type="submit" class="btn btn-primary btn-lg">Сохранить изменения</button>
+            <label for="file" class="form-label">Add file</label>
+            <input class="form-control" type="file" id="file" name="file">
         </div>
+        @endif
+
+
     </form>
+    @if($task->file)
+        <div class="form-group mb-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <p class="fs-5">Attached file</p>
+                    </div>
+
+                    <div class="col-md-2">
+                        <a class="btn btn-outline-success" href="{{ asset('storage/uploaded_files/' . $task->file) }}">Download</a>
+                    </div>
+                    <div class="col-md-2">
+                        <form action="{{ route('task.deleteFile', $task->id) }}" method="POST" class=" d-grid gap-2">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-outline-danger" type="submit" onclick="return confirm('Подтвердите удаление')">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <div class="form-group mb-3">
+        <button type="submit" class="btn btn-primary btn-lg" onclick="document.getElementById('editForm').submit();">Сохранить изменения</button>
+    </div>
 
 @endsection

@@ -34,6 +34,7 @@ Route::resource('/users', UserController::class);
 
 Route::resource('/task', TaskController::class);
 Route::post('/task/{task}/comment', 'App\Http\Controllers\TaskController@comment')->name('task.comment');
+Route::delete('/task/{task}/deleteFile', 'App\Http\Controllers\TaskController@deleteFile')->name('task.deleteFile');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
