@@ -176,6 +176,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\HistoryServiceProvider::class,
+        App\Providers\FileHandleServiceProvider::class,
+        App\Providers\FileDeleteServiceProvider::class,
+        App\Providers\CommentServiceProvider::class,
 
     ],
 
@@ -232,6 +235,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'History' => \App\Facades\History::class,
+        'FileHandle' => \App\Facades\FileHandle::class,
+        'FileDelete' => \App\Facades\FileDelete::class,
+        'Comment' => \App\Facades\Comment::class,
     ],
 
 ];

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\Comment;
+use App\Facades\FileDelete;
 use App\Facades\History;
+use App\Facades\FileHandle;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\TaskRequest;
 use App\Models\Comments;
@@ -54,17 +57,12 @@ class TaskController extends Controller
     {
         $data = $request->all();
 
-        if ($request->file){
-            $fileName = $request->file('file')->getClientOriginalName() . '_' . date("Y-m-d-H-i-s");
-
-            Storage::putFileAs('public/uploaded_files/', $request->file('file'), $fileName);
-
-            $data['file'] = $fileName;
-        }
+        $data['file'] = FileHandle::addFile($request);
 
         $data['creator_id'] = Auth::user()->id;
 
         $task = Task::create($data);
+
         $task->labels()->sync($request->labels);
 
         return redirect()->route('task.index')->with('success', 'New task was created successfully');
@@ -117,13 +115,7 @@ class TaskController extends Controller
 
         $data = $request->all();
 
-        if ($request->file('file')){
-            $fileName = $request->file('file')->getClientOriginalName() . '_' . date("Y-m-d-H-i-s");
-
-            Storage::putFileAs('public/uploaded_files/', $request->file('file'), $fileName);
-
-            $data['file'] = $fileName;
-        }
+        $data['file'] = FileHandle::addFile($request);
 
         History::save($id, $data);
 
@@ -151,20 +143,14 @@ class TaskController extends Controller
     public function comment(CommentRequest $request, $id)
     {
 
-        $data = $request->all();
-        $data['task_id'] = $id;
-        $data['user_id'] = Auth::user()->id;
-        Comments::create($data);
+        Comment::addComment($request, $id);
 
         return redirect()->back()->with('success', 'New comment was added successfully');
     }
 
     public function deleteFile($id)
     {
-        $task = Task::find($id);
-        Storage::delete('public/uploaded_files/' . $task['file']);
-        $task['file'] = null;
-        $task->update();
+        FileDelete::delete($id);
 
         return back();
     }
