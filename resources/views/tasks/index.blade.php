@@ -7,7 +7,7 @@
     </div>
     @if(Auth::check())
     <div class="p-3 m-3 text-center">
-        <button class="btn btn-success"><a class="btn btn-success p-0 m-0" href="{{ route('task.create') }}">Create new task</a></button>
+        <a class="btn btn-success" href="{{ route('task.create') }}">Create new task</a>
     </div>
     @endif
     <div class="row justify-content-md-center">
@@ -17,8 +17,8 @@
                 <div class="card gradient-card text-white bg-dark">
                     <div class="card-header border-bottom border-light">
 
-                        <div class="border-bottom border-light rounded-top">
-                            <p class="text-uppercase text-center m-2">{{ $task->status->name }}</p>
+                        <div class="border-bottom border-light rounded-top ">
+                            <p class="text-uppercase text-center text-{{ $task->status->color }} m-2">{{ $task->status->name }}</p>
                         </div>
 
                         <div class="align-self-center p-3">
@@ -41,41 +41,68 @@
 
                     </div>
 
-                    <div class="card-body white text-end">
-                        <div class="border-bottom border-light">
-                            <h4 class="fs-5">Created by {{ $task->user->name }}</h4>
-                        </div>
+
+                    <div class="card-body border-bottom border-light text-end">
+                        <h4 class="fs-5">Created by {{ $task->user->name }}</h4>
                     </div>
+
                     @if(Auth::check())
                         @if(Auth::user()->hasRole('admin') or $task->user->id == Auth::user()->id)
-                            <div class="card-body row">
-                                <div class="col ">
-                                    <a class="btn btn-outline-success btn-sm d-grid gap-2" href="{{ route('task.show', ['task' => $task->id]) }}" type="submit">
 
-                                        @if($task->comments->count())
-                                        {{ $task->comments->count() }} comments
-                                        @else
-                                            Add comment
-                                        @endif
-                                    </a>
+                    @if($task->file)
+
+                    <div class="card-body border-bottom border-light">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-10 pt-2">
+                                    <p class="fs-5 text-decoration-underline">Attached file</p>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <a class="btn btn-outline-success" href="{{ asset('storage/uploaded_files/' . $task->file) }}">Download</a>
                                 </div>
                             </div>
-                            <div class="card-body row">
-                                <div class="col ">
-                                    <a class="btn btn-outline-info btn-sm d-grid gap-2" href="{{ route('task.edit', ['task' => $task->id]) }}" type="submit">
-                                        Edit
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <form action="{{ route('task.destroy', $task->id) }}" method="POST" class=" d-grid gap-2">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-outline-danger btn-sm" type="submit" onclick="return confirm('Подтвердите удаление')">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="card-body row">
+                        <div class="col ">
+                            <a class="btn @if($task->comments->count()) btn-outline-success @else btn-outline-secondary @endif btn-sm d-grid gap-2" href="{{ route('task.show', ['task' => $task->id]) }}" type="submit">
+
+
+                                @if($task->comments->count())
+                                    Open
+
+                                    @if( $task->comments->count() == 1)
+                                        ({{ $task->comments->count() }} comment)
+                                        @else()
+                                        ({{ $task->comments->count() }} comments)
+                                    @endif
+                                @else
+                                    Open
+                                @endif
+
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-body row">
+                        <div class="col ">
+                            <a class="btn btn-outline-info btn-sm d-grid gap-2" href="{{ route('task.edit', ['task' => $task->id]) }}" type="submit">
+                                Edit
+                            </a>
+                        </div>
+                        <div class="col">
+                            <form action="{{ route('task.destroy', $task->id) }}" method="POST" class=" d-grid gap-2">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-outline-danger btn-sm" type="submit" onclick="return confirm('Подтвердите удаление')">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                         @endif
                     @endif
                 </div>

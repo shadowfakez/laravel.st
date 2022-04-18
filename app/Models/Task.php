@@ -14,7 +14,7 @@ class Task extends Model
 {
     use HasFactory, HasApiTokens, Notifiable;
 
-    protected $fillable = ['creator_id', 'title', 'content', 'status_id'];
+    protected $fillable = ['creator_id', 'title', 'content', 'status_id', 'file'];
 
     public function status(): BelongsTo
     {
