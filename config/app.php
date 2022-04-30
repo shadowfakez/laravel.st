@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC+3',
+    'timezone' => 'Europe/Kiev',
 
     /*
     |--------------------------------------------------------------------------
@@ -179,6 +179,7 @@ return [
         App\Providers\FileHandleServiceProvider::class,
         App\Providers\FileDeleteServiceProvider::class,
         App\Providers\CommentServiceProvider::class,
+        App\Providers\TGBotServiceProvider::class,
 
     ],
 
@@ -238,6 +239,7 @@ return [
         'FileHandle' => \App\Facades\FileHandle::class,
         'FileDelete' => \App\Facades\FileDelete::class,
         'Comment' => \App\Facades\Comment::class,
+        'TGBot' => \App\Facades\TGBot::class,
     ],
 
 ];

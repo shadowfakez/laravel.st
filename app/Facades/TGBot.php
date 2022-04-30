@@ -4,11 +4,11 @@ namespace App\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class Comment extends Facade
+class TGBot extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return 'Comment';
+        return 'TGBot';
     }
 
 }

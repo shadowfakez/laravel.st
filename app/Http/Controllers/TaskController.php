@@ -6,6 +6,7 @@ use App\Facades\Comment;
 use App\Facades\FileDelete;
 use App\Facades\History;
 use App\Facades\FileHandle;
+use App\Facades\TGBot;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\TaskRequest;
 use App\Models\Comments;
@@ -65,6 +66,24 @@ class TaskController extends Controller
 
         $task->labels()->sync($request->labels);
 
+
+        TGBot::sendMessage($task);
+
+        /*$idChannel = config('tgbot.idChannel');
+        $botToken = config('tgbot.botToken');
+
+        $message = "Новая задача создана: " . $task->title
+                . "   \n\nТекст задачи: " . $task->content
+                . "   \n\nЗадача от: " . $task->user->name
+                . "   \n\nСтатус задачи: " . $task->status->name;
+        $message = urlencode($message);
+        try {
+            file_get_contents("https://api.telegram.org/bot$botToken/sendMessage?chat_id=$idChannel&text=".$message);
+        }
+        catch (\Exception $e){
+
+        }*/
+
         return redirect()->route('task.index')->with('success', 'New task was created successfully');
     }
 
@@ -72,15 +91,19 @@ class TaskController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function show($id)
     {
         $task = Task::find($id);
-        $comments = Comments::where('task_id', $id)->orderBy('id', 'desc')->get();
-        $statuses = Status::get();
+        if (Auth::check() and Auth::user()->hasRole('admin') or $task->user->id == Auth::user()->id) {
 
-        return view('tasks.show', ['task' => $task, 'statuses' => $statuses, 'comments' => $comments]);
+            $comments = Comments::where('task_id', $id)->orderBy('id', 'desc')->get();
+            $statuses = Status::get();
+
+            return view('tasks.show', ['task' => $task, 'statuses' => $statuses, 'comments' => $comments]);
+        }
+        return redirect(404);
     }
 
     /**
