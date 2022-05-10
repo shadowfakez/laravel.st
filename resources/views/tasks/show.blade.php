@@ -91,7 +91,7 @@
                     <textarea class="form-control border border-dark " id="comment" name="comment" rows="3" placeholder="Add comment"></textarea>
                 </div>
                 <div class="col-auto d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="submit" class="btn btn-outline-dark ">Add comment</button>
+                    <button type="submit" id="add_comment" data-order="get_comment" class="btn btn-outline-dark">Add comment</button>
                 </div>
 
             </form>
@@ -104,9 +104,9 @@
                         <div class="row g-0">
 
                             <div class="card-body">
-                                <h5 class="card-title">{{$comment->user->name}}</h5>
-                                <p class="card-text pl-3" style="text-indent: 50px;">{{$comment->comment}}</p>
-                                <p class="card-text"><small class="text-muted">{{$comment->created_at}}</small></p>
+                                <h5 id="c_user_name" class="card-title">{{$comment->user->name}}</h5>
+                                <p id="c_user_comment" class="card-text pl-3" style="text-indent: 50px;">{{$comment->comment}}</p>
+                                <p id="c_user_date" class="card-text"><small class="text-muted">{{$comment->created_at}}</small></p>
                             </div>
 
                         </div>
